@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    html,body,ul,div{
+        margin: 0;
+        padding: 0;
+    }
+    .sortbox{
+        padding-left: 10px;
+    }
+    .tips{
+        font-size: 13px;
+        color: #999;
+    }
+    #items{
+        width: 100%;
+        height: 100%;
+    }
+    .item{
+        list-style:none;        
+        padding: 15px 10px;
+        border-top: 1px solid #ddd;    
+        font-size: 14px;
+        }
+    .i-hlandle{
+        display: block;
+        width: 18px;
+        position: relative;
+        float: right;
+        padding: 5px;
+        bottom: 5px;
+    }
+    .i-hlandle i{
+        display: block;
+        border-top: 2px solid #ddd;
+        margin-top:4px;
+    }
+    .radius{
+        width: 20px;
+        height: 20px;
+        border-radius: 100%;
+        background-color:  rgb(15, 101, 230);
+        color: #fff;
+        display: inline-block;
+        font-style: normal;
+        text-align: center;
+        font-size: 12px;
+        line-height: 20px;
+        margin-right: 10px;
+    }
+    .bdgray{
+        background-color: #d1d1d1;
+    }
+    /* 选中后的样式 */
+    .chosen-item{
+        background-color: rgb(15, 101, 230);
+        box-shadow: 5px 5px 5p #666;    
+        border: none;
+        color: #fff;
+    }
+    .chosen-item .radius{
+        background-color: #fff;
+        color: #000;
+    }
+    .ghost-item{
+        filter: opacity(0);
+    }
+</style>
+<body>
+    <div class="sortbox">
+        <p class="tips">拖动右边把手排序</p>
+        <ul id="items">
+            <li class="item" draggable="true"><em class="radius">1</em>选项A <span class="i-hlandle"><i></i><i></i><i></i></span></li>
+            <li class="item" draggable="true"><em class="radius">2</em>选项B <span class="i-hlandle"><i></i><i></i><i></i></span></li>
+            <li class="item" draggable="true"><em class="radius">3</em>选项C <span class="i-hlandle"><i></i><i></i><i></i></span></li>
+            <li class="item" draggable="true"><em class="radius">4</em>选项D <span class="i-hlandle"><i></i><i></i><i></i></span></li>
+        </ul>
+    </div>
+    
+</body>
+<script src="http://lib.baomitu.com/Sortable/1.10.0/Sortable.js"></script>
+<script>
+    var el = document.getElementById('items');
+    var sortable = Sortable.create(el,{
+        group:"#items",
+        sort:true,
+        disabled:false,
+        animation:200,
+        handle:".item",
+        draggable:".item",//需要拖动的元素
+        ghostClass:"ghost-item",//影子样式
+        chosenClass:"chosen-item",//给选中的元素加样式
+        scroll:true,//当排序的容器是个可滚动的区域，拖放可以引起区域滚动
+        // 列表单元被选中的回调函数
+        onChoose:function(el){
+            let li=document.getElementsByTagName('li');
+            for(let i=0;i<li.length;i++){
+                if(i!=el.oldIndex){
+                    let itemli=li[i].firstElementChild;
+                    itemli.classList.add("bdgray");
+                }
+            }
+        },
+        //列表单元在列表容器中的排序发生变化后的回调函数
+        onUpdate:function(el){
+            let li=document.getElementsByTagName('li');
+            for(let i=0;i<li.length;i++){
+                let itemli=li[i].firstElementChild;
+                itemli.innerHTML=(i+1);
+                itemli.classList.remove("bdgray");
+            }
+        }
+    });
+
+
+
+</script>
+  
+</html>
